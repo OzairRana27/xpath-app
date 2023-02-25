@@ -1,16 +1,22 @@
 
 <div class="main-div">
   <div class="web-display-div">
-    <div class="display-div" [innerHTML]="sanitizedHtmlContent" (click)="fetchXPath($event)"></div>
+    <div class="display-div" [innerHTML]="sanitizedHtmlContent" (click)="processInformation($event)"></div>
   </div>
   <div class="sidebar-div">
     <div class="information">
-      <b>Class</b>
-      <ul *ngFor="let class of classes">
-        <li>
-          {{class}}
-        </li>
-      </ul>
+      <div *ngIf="classes.length" class="class-list">
+        <b>Class</b>
+        <ul>
+          <li *ngFor="let class of classes; let i = index">
+            ({{ i + 1 }}){{' ' + class}}
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="xpath.length" class="xpath-div">
+        <b>XPath:</b>
+        <p>{{xpath}}</p>
+      </div>
     </div>
   </div>
 </div>

@@ -12,6 +12,7 @@ export class WebDisplayComponent implements OnInit {
   html: any = ''
   sanitizedHtmlContent: any = ''
   classes: any = ''
+  xpath: any = ''
   constructor(private scraperService: ScraperService, private route: ActivatedRoute, private sanitizer: DomSanitizer, private elementRef: ElementRef) {}
 
   ngOnInit(): void {
@@ -29,10 +30,25 @@ export class WebDisplayComponent implements OnInit {
     });
   }
 
-  fetchXPath(event: any){
+  processInformation(event: any){
     event.preventDefault()
-    console.log(event)
-    const element = event.target
+    var element = event.target
     this.classes = element.classList
+    element = document.elementFromPoint(event.clientX, event.clientY);
+    this.xpath = this.getXPath(element)
   }
+
+  getXPath = (element: any): any => {
+    if (element && element.nodeType === Node.ELEMENT_NODE) {
+        const idx = [...element.parentNode.children].indexOf(element) + 1;
+        // if (element.classList.contains('display-div') && idx === 3) {
+        if (element.classList.contains('display-div')) {
+            return `/${element.tagName.toLowerCase()}[${idx}]`;
+        } else {
+            return this.getXPath(element.parentNode) + `/${element.tagName.toLowerCase()}[${idx}]`;
+        }
+    } else {
+        return '';
+    }
+};
 }
