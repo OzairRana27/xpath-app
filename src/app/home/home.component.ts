@@ -15,6 +15,6 @@ export class HomeComponent implements OnInit {
   }
 
   openWebsite(){
-    this.router.navigate(['/proxy', this.websiteURL]);
+    this.router.navigate(['/web-display', this.websiteURL]);
   }
 }
