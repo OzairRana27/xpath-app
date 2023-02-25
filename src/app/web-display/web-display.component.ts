@@ -1,4 +1,4 @@
-import { Component, OnInit, Sanitizer, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { ScraperService } from '../web-scraping.service';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -41,14 +41,17 @@ export class WebDisplayComponent implements OnInit {
   getXPath = (element: any): any => {
     if (element && element.nodeType === Node.ELEMENT_NODE) {
         const idx = [...element.parentNode.children].indexOf(element) + 1;
-        // if (element.classList.contains('display-div') && idx === 3) {
         if (element.classList.contains('display-div')) {
-            return `/${element.tagName.toLowerCase()}[${idx}]`;
+            return '';
         } else {
-            return this.getXPath(element.parentNode) + `/${element.tagName.toLowerCase()}[${idx}]`;
+          if(element.className.length)
+            return this.getXPath(element.parentNode) + `/ <${element.tagName.toLowerCase()} class='${element.className}'> [${idx}] `;
+          else{
+            return this.getXPath(element.parentNode) + `/ <${element.tagName.toLowerCase()}> [${idx}] `;
+          }
         }
     } else {
         return '';
     }
-};
+  };
 }
