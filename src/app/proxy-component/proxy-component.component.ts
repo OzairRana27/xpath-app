@@ -1,13 +1,14 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ClickCatchDirectiveDirective } from '../click-catch-directive.directive';
 
 @Component({
   selector: 'app-proxy-component',
   templateUrl: './proxy-component.component.html',
   styleUrls: ['./proxy-component.component.scss']
 })
-export class ProxyComponentComponent implements OnInit,AfterViewInit {
+export class ProxyComponentComponent implements OnInit {
   proxyUrl: string = '';
   @ViewChild('iframeWrapper', { static: false }) iframeWrapper!: ElementRef;
 
@@ -19,38 +20,6 @@ export class ProxyComponentComponent implements OnInit,AfterViewInit {
     this.proxyUrl = `${url}`;
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(()=>{
-      this.addClickEventListener();
-    }, 2000)
-  }
-
-  addClickEventListener() {
-    console.log(this.iframeWrapper)
-    const iframeEl = this.iframeWrapper.nativeElement;
-    iframeEl.addEventListener('click', (event: MouseEvent) => {
-      console.log('click performed')
-      event.stopPropagation();
-      event.preventDefault();
-      const xpath = this.fetchXpath(event.target as Element);
-      console.log(xpath);
-    });
-    // const iframeWrapper = this.iframeWrapper.nativeElement;
-    // console.log('iframeWrapper:', iframeWrapper);
-    // const iframe = iframeWrapper.querySelector('iframe');
-    // console.log('iframe:', iframe);
-    // iframe.addEventListener('load', () => {
-    //   const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-    //   document.addEventListener('click', event => {
-    //     event.preventDefault();
-    //     if (event.target instanceof HTMLElement && iframe.contains(event.target)) {
-    //       const clickedEl = iframeDoc.elementFromPoint(event.clientX, event.clientY);
-    //       console.log(this.fetchXpath(clickedEl));
-    //     }
-    //   });
-    // });
-  }
 
   fetchXpath(el: Element){
     const paths = [];

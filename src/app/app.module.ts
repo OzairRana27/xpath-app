@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ProxyComponentComponent } from './proxy-component/proxy-component.component';
 import { SafePipe } from './safe.pipe';
+import { ClickCatchDirectiveDirective } from './click-catch-directive.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ProxyComponentComponent,
-    SafePipe
+    SafePipe,
+    ClickCatchDirectiveDirective
   ],
   imports: [
     BrowserModule,
