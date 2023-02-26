@@ -13,6 +13,7 @@ export class WebDisplayComponent implements OnInit {
   sanitizedHtmlContent: any = ''
   classes: any = ''
   xpath: any = ''
+  srcElement: any = ''
   constructor(private scraperService: ScraperService, private route: ActivatedRoute, private sanitizer: DomSanitizer, private elementRef: ElementRef) {}
 
   ngOnInit(): void {
@@ -36,6 +37,7 @@ export class WebDisplayComponent implements OnInit {
     this.classes = element.classList
     element = document.elementFromPoint(event.clientX, event.clientY);
     this.xpath = this.getXPath(element)
+    this.srcElement = element.currentSrc
   }
 
   getXPath = (element: any): any => {

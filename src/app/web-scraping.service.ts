@@ -19,7 +19,7 @@ export class ScraperService {
     doc.head.prepend(base);
     const elementsWithUrls = doc.querySelectorAll('[src], [href], [srcset], [data]');
     elementsWithUrls.forEach(element => {
-      const attributeNames = ['src', 'href', 'srcset', 'data'];
+      const attributeNames = ['src', 'href', 'data'];
       attributeNames.forEach(attributeName => {
         const attributeValue = element.getAttribute(attributeName);
         if (attributeValue && !attributeValue.startsWith('data:')) {
