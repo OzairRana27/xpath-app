@@ -1,14 +1,14 @@
 .main-div{
-  display: flex;
+  // display: flex;
   height: 100vh;
   font-size: 15px;
   .web-display-div{
-    display: flex;
-    flex: 0 0 65%;
-    overflow-y: auto;
-    .display-div{
-      flex: 0 0 100%;
-    }
+    // display: flex;
+    // flex: 0 0 65%;
+    // overflow-y: auto;
+    // .display-div{
+    //   flex: 0 0 100%;
+    // }
   }
   .sidebar-div{
     flex: 0 0 35%;

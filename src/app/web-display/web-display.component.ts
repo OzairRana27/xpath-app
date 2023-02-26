@@ -33,11 +33,24 @@ export class WebDisplayComponent implements OnInit {
 
   processInformation(event: any){
     event.preventDefault()
+    console.clear()
     var element = event.target
-    this.classes = element.classList
+    this.classes= element.classList
     element = document.elementFromPoint(event.clientX, event.clientY);
     this.xpath = this.getXPath(element)
     this.srcElement = element.currentSrc
+    if(this.classes.length){
+      console.log('Class (Clicked Element):')
+      this.classes.forEach((className: any, index: number)=>{
+        console.log(`(${index + 1})`, className)
+      })
+    }
+    if(this.xpath.length){
+      console.log('XPath:', this.xpath)
+    }
+    if(this.srcElement){
+      console.log('Src:', this.srcElement)
+    }
   }
 
   getXPath = (element: any): any => {
