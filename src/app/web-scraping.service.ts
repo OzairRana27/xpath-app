@@ -27,6 +27,28 @@ export class ScraperService {
         }
       });
     });
+
+    const elementsWithInlineStyles = doc.querySelectorAll('*[style]');
+    elementsWithInlineStyles.forEach((element: any) => {
+      if (element.style.position === 'absolute') {
+        element.style.removeProperty('position');
+      }
+    });
+
+    // remove external and embedded styles with position: absolute
+    const styleSheets = doc.styleSheets;
+    for (let i = 0; i < styleSheets.length; i++) {
+      const styleSheet = styleSheets[i] as CSSStyleSheet;
+      const rules = styleSheet.cssRules;
+      for (let j = 0; j < rules.length; j++) {
+        const rule = rules[j] as CSSStyleRule;
+        if (rule.style.position === 'absolute') {
+          styleSheet.deleteRule(j);
+          j--;
+        }
+      }
+    }
+
     return doc.documentElement.outerHTML;
   }
 }

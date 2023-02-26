@@ -3,8 +3,8 @@
   <div class="web-display-div">
     <div class="display-div" [innerHTML]="sanitizedHtmlContent" (click)="processInformation($event)"></div>
   </div>
-  <!-- <div class="sidebar-div"> -->
-    <!-- <div class="information">
+  <div class="sidebar-div">
+    <div class="information">
       <div *ngIf="classes.length" class="class-list">
         <b>Class (Clicked Element)</b>
         <ul>
@@ -21,7 +21,15 @@
         <b>Src:</b>
         <p>{{srcElement}}</p>
       </div>
-    </div> -->
-  <!-- </div> -->
+      <div class="click-button">
+        <div *ngIf="buttonEnabled">
+          <button (click)="disableClick()">Disable Click</button>
+        </div>
+        <div *ngIf="!buttonEnabled">
+          <button (click)="enableClick()">Enable Click</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 

@@ -14,10 +14,15 @@ export class WebDisplayComponent implements OnInit {
   classes: any = ''
   xpath: any = ''
   srcElement: any = ''
+  buttonEnabled: boolean = false
   constructor(private scraperService: ScraperService, private route: ActivatedRoute, private sanitizer: DomSanitizer, private elementRef: ElementRef) {}
 
   ngOnInit(): void {
     const url: any = this.route.snapshot.paramMap.get('url');
+    this.fetchUrl(url)
+  }
+
+  fetchUrl(url: any){
     this.scraperService.scrape(url).subscribe((html:any) => {
       this.html = html;
       const cssRegex = /<style.*?>(.*?)<\/style>/gs;
@@ -33,23 +38,40 @@ export class WebDisplayComponent implements OnInit {
 
   processInformation(event: any){
     event.preventDefault()
-    console.clear()
-    var element = event.target
-    this.classes= element.classList
-    element = document.elementFromPoint(event.clientX, event.clientY);
-    this.xpath = this.getXPath(element)
-    this.srcElement = element.currentSrc
-    if(this.classes.length){
-      console.log('Class (Clicked Element):')
-      this.classes.forEach((className: any, index: number)=>{
-        console.log(`(${index + 1})`, className)
-      })
+    if(!this.buttonEnabled){
+      console.clear()
+      var element = event.target
+      this.classes= element.classList
+      element = document.elementFromPoint(event.clientX, event.clientY);
+      this.xpath = this.getXPath(element)
+      this.srcElement = element.currentSrc
+      if(this.classes.length){
+        console.log('Class (Clicked Element):')
+        this.classes.forEach((className: any, index: number)=>{
+          console.log(`(${index + 1})`, className)
+        })
+      }
+      if(this.xpath.length){
+        console.log('XPath:', this.xpath)
+      }
+      if(this.srcElement){
+        console.log('Src:', this.srcElement)
+      }
     }
-    if(this.xpath.length){
-      console.log('XPath:', this.xpath)
+    else{
+      event.preventDefault()
+      this.traverseEventForLinks(event.target)
     }
-    if(this.srcElement){
-      console.log('Src:', this.srcElement)
+  }
+
+  traverseEventForLinks(event: any){
+    var element = event;
+    while (element && element.tagName !== 'A' && !element.classList.contains('display-div')) {
+      element = element.parentNode;
+    }
+    if(element.tagName === 'A')
+    {
+      this.fetchUrl(element.href)
     }
   }
 
@@ -69,4 +91,12 @@ export class WebDisplayComponent implements OnInit {
         return '';
     }
   };
+
+  disableClick(){
+    this.buttonEnabled = false;
+  }
+
+  enableClick(){
+    this.buttonEnabled = true;
+  }
 }
